@@ -1,9 +1,35 @@
 import React, {Component, Fragment} from 'react'
+import axios from 'axios'
 import {Menu, Icon} from 'antd'
 import logo from './logo.png'
 import './style.css'
 
 class AppHeader extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      list: []
+    }
+  }
+
+  getMenuItems () {
+    return this.state.list.map(item => {
+      return (
+        <Menu.Item key={item.id}>
+          <Icon type={item.icon}/>{item.title}
+        </Menu.Item>
+      )
+    })
+  }
+
+  componentDidMount () {
+    axios.get('http://www.dell-lee.com/react/api/header.json').then((res) => {
+      this.setState({
+        list: res.data.data
+      })
+    })
+  }
+
   render () {
     return (
       <Fragment>
@@ -11,18 +37,7 @@ class AppHeader extends Component {
         <Menu mode="horizontal"
               className={'app-header-menu'}
         >
-          <Menu.Item key="mail">
-            <Icon type="mail"/>one
-          </Menu.Item>
-          <Menu.Item key="mail2">
-            <Icon type="mail"/>one
-          </Menu.Item>
-          <Menu.Item key="mail3">
-            <Icon type="mail"/>one
-          </Menu.Item>
-          <Menu.Item key="mail4">
-            <Icon type="mail"/>one
-          </Menu.Item>
+          {this.getMenuItems()}
         </Menu>
       </Fragment>
     )
