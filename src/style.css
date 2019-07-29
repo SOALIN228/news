@@ -1,5 +1,10 @@
 body {
     background: #f0f2f5;
+    height: 100%;
+}
+
+#root {
+    height: 100%;
 }
 
 .header {
@@ -13,6 +18,7 @@ body {
 }
 
 .footer {
+    padding: 12px 50px !important;
     text-align: center;
     border-top: 1px solid #999;
 }

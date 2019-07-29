@@ -1,4 +1,5 @@
 import React, {Component, Fragment} from 'react'
+import {Link} from 'react-router-dom'
 import axios from 'axios'
 import {Menu, Icon} from 'antd'
 import logo from './logo.png'
@@ -16,7 +17,9 @@ class AppHeader extends Component {
     return this.state.list.map(item => {
       return (
         <Menu.Item key={item.id}>
-          <Icon type={item.icon}/>{item.title}
+          <Link to={`/${item.id}`}>
+            <Icon type={item.icon}/>{item.title}
+          </Link>
         </Menu.Item>
       )
     })

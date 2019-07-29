@@ -14,3 +14,12 @@ React 新闻网站
    </BrowserRouter>
    ```
 
+2. 动态路由
+
+   ```react
+   <Route path={'/:id?'} component={List}/> // 添加？表示动态的参数可传可不传
+   ```
+
+   ```javascript
+   this.props.match.params.id // 接收url传递的路由参数
+   ```

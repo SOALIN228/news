@@ -1,22 +1,44 @@
 import React, {Component} from 'react'
+import axios from 'axios'
 import {List} from 'antd'
 
-const data = [
-  'Racing car sprays burning fuel into crowd.',
-  'Japanese princess to wed commoner.',
-  'Australian walks 100km after outback crash.',
-  'Man charged over missing wedding girl.',
-  'Los Angeles battles huge wildfires.',
-]
-
 class PageList extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      data: []
+    }
+  }
+
+  componentDidMount () {
+    let url = 'http://www.dell-lee.com/react/api/list.json'
+    const id = this.props.match.params.id
+    if (id) {
+      url = url + '?id=' + id
+    }
+    axios.get(url).then((res) => {
+      this.setState({
+        data: res.data.data
+      })
+    })
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const id = nextProps.match.params.id
+    axios.get('http://www.dell-lee.com/react/api/list.json?id=' + id).then((res) => {
+      this.setState({
+        data: res.data.data
+      })
+    })
+  }
+
   render () {
     return (
       <List
-        style={{background: '#fff'}}
+        style={{ background: '#fff' }}
         bordered
-        dataSource={data}
-        renderItem={item => (<List.Item>{item}</List.Item>)}
+        dataSource={this.state.data}
+        renderItem={item => (<List.Item>{item.title}</List.Item>)}
       />
     )
   }
