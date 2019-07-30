@@ -23,3 +23,11 @@ React 新闻网站
    ```javascript
    this.props.match.params.id // 接收url传递的路由参数
    ```
+
+3. 如果组件不再Switch中又想在js中使用路由相关的操作，可以使用withRouter，获取路由相关的操作
+
+   ```react
+   import {Link, withRouter} from 'react-router-dom'
+   this.props.history.push('/') // 跳转到根路由
+   export default withRouter(Login)
+   ```

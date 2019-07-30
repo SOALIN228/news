@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import axios from 'axios'
+import {Link, withRouter} from 'react-router-dom'
 import {Modal, Button, Input, message} from 'antd'
 import './style.css'
 
@@ -18,6 +19,7 @@ class Login extends Component {
     this.changeUser = this.changeUser.bind(this)
     this.changePassword = this.changePassword.bind(this)
     this.checkLogin = this.checkLogin.bind(this)
+    this.logout = this.logout.bind(this)
   }
 
   showModal () {
@@ -47,13 +49,15 @@ class Login extends Component {
   checkLogin () {
     const { user, password } = this.state
     const url = `http://www.dell-lee.com/react/api/login.json?user=${user}&password=${password}`
-    axios.get(url).then(res => {
+    axios.get(url, {
+      withCredentials: true
+    }).then(res => {
       const login = res.data.data.login
       if (login) {
         message.success('登录成功')
-        this.hideModal()
         this.setState({
-          login: true
+          login: true,
+          modal: false
         })
       } else {
         message.error('登录失败')
@@ -61,9 +65,24 @@ class Login extends Component {
     })
   }
 
+  logout () {
+    axios.get('http://www.dell-lee.com/react/api/logout.json', {
+      withCredentials: true
+    }).then(res => {
+      const data = res.data.data
+      if (data.logout) {
+        this.setState({
+          login: false
+        })
+      }
+      this.props.history.push('/')
+    })
+  }
 
   componentDidMount () {
-    axios.get('http://www.dell-lee.com/react/api/isLogin.json').then(res => {
+    axios.get('http://www.dell-lee.com/react/api/isLogin.json', {
+      withCredentials: true
+    }).then(res => {
       const login = res.data.data.login
       this.setState({ login })
     })
@@ -75,9 +94,12 @@ class Login extends Component {
       <div className={'login'}>
         {
           login ?
-            <Button type="danger">退出</Button> :
+            <Button type="danger" onClick={this.logout}>退出</Button> :
             <Button type="primary" onClick={this.showModal}>登录</Button>
         }
+        <Link to="/vip">
+          <Button type="primary" style={{ marginLeft: 10 }}>Vip</Button>
+        </Link>
         <Modal
           title="登录"
           visible={this.state.modal}
@@ -102,4 +124,4 @@ class Login extends Component {
   }
 }
 
-export default Login
+export default withRouter(Login)

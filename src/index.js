@@ -5,6 +5,7 @@ import {Layout} from 'antd'
 import AppHeader from './components/Header'
 import List from './containers/List'
 import Detail from './containers/Detail'
+import Vip from './containers/Vip'
 import Login from './components/Login'
 
 import 'antd/dist/antd.css'
@@ -24,6 +25,7 @@ class App extends Component {
           <Content className={'content'}>
             <Login/>
             <Switch>
+              <Route path={'/vip'} component={Vip}/>
               <Route path={'/detail/:id'} component={Detail}/>
               <Route path={'/:id?'} component={List}/>
             </Switch>
